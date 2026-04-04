@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Doctor;
+
+
+class UserController extends Controller
+{
+    //
+    public function Dashboard()
+    {
+        if(Auth::check() && Auth::user()->usertype == 'user')
+        {
+            return view('dashboard');
+        }
+        else if(Auth::check() && Auth::user()->usertype == 'admin')
+        {
+            return redirect()->route('admin.dashboard');
+        }
+        else {
+            return redirect('/');
+        }
+    }
+    
+    public function Index()
+    {
+        $doctors = Doctor::all();
+        return view('index', compact('doctors'));
+    }
+
+    public function allDoctors()
+    {
+        $doctors = Doctor::all();
+        return view('doctors', compact('doctors'));
+    }
+
+     public function about()
+        {
+            $doctors = Doctor::all();
+            return view('about', compact('doctors'));
+        }
+}
